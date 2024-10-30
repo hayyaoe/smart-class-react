@@ -12,17 +12,27 @@ const SummaryMindMapPage = () => {
   const [mindMapData, setMindMapData] = useState("");
   const [loadingSummary, setLoadingSummary] = useState(true);
   const [loadingMindMap, setLoadingMindMap] = useState(true);
-  const [showSummary, setShowSummary] = useState(true);
   const [error, setError] = useState("");
 
   // Styles for blue background color
   const blueBgStyle = "bg-[#1152FD] text-white";
 
+  const mindMapReal = `mindmap
+  root(("Sedang berbicara di depan laptop"))
+    Tim
+      ("Ada banyak tim")
+      jumlah_tim(("Jumlah Tim: 2"))
+    Uji
+      Tes
+        Smart_Class(("Apakah bisa?"))
+        hasil_tes(("Hasil Tes: Belum diketahui"))
+  `;
+
   useEffect(() => {
     const fetchSummary = async () => {
       try {
         setLoadingSummary(true);
-        const summaryPrompt = `Please provide a summary that consist of introduction, learning concepts, and conclusion if possible of the following text in Markdown format:\n"${transcription}"`;
+        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcipt language and don't add a #Summary heading:\n"${transcription}"`;
 
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -51,7 +61,19 @@ const SummaryMindMapPage = () => {
     const fetchMindMap = async () => {
       try {
         setLoadingMindMap(true);
-        const mindMapPrompt = `Please convert the following text into a Mermaid.js mindmap format. Follow this exact structure:\nmindmap\n  root: [Main Topic]\n    First sub-topic\n      Sub-topic detail\n    Second sub-topic\n      Another sub-topic detail\n        Nested detail\n\nText for mindmap: "${transcription}"`;
+        const mindMapPrompt = `Please convert the following text into a Mermaid.js mindmap format. Follow this exact structure:
+
+mindmap
+  root: [Main Topic]
+    First sub-topic
+      Sub-topic detail
+    Second sub-topic
+      Another sub-topic detail
+        Nested detail
+
+Each level should be indented with two spaces, and each node should be on a new line. Do not add any extra text or explanations. Just output the Mermaid.js code in the requested format.
+
+Text for mindmap: "${transcription}"`;
 
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -98,47 +120,35 @@ const SummaryMindMapPage = () => {
 
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-80 z-50">
           <div className="bg-white text-blue-600 font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
-            <h2 className="text-xl font-semibold">AI Summarizer</h2>
+            <h2 className="text-xl font-semibold">AI Summarizer & Mind Map</h2>
           </div>
         </div>
       </header>
 
       {/* Summary and Mind Map Section */}
-      <main className="flex-grow flex flex-col px-6 mt-44 mb-32 justify-start items-center">
-        {/* Toggle Button Row */}
-        <div className="flex flex-row justify-center w-full mb-6 space-x-2">
-          <button
-            onClick={() => setShowSummary(true)}
-            className={`${
-              showSummary ? blueBgStyle : "bg-white text-blue-600"
-            } text-center text-md py-3 px-6 rounded-full w-full max-w-xs transition duration-200 shadow-md`}
-          >
-            Summary
-          </button>
-          <button
-            onClick={() => setShowSummary(false)}
-            className={`${
-              !showSummary ? blueBgStyle : "bg-white text-blue-600"
-            } text-center text-md py-3 px-6 rounded-full w-full max-w-xs transition duration-200 shadow-md`}
-          >
-            Mind Map
-          </button>
-        </div>
-
-        <div className="bg-white max-w-md w-full flex flex-col items-center rounded-2xl shadow-lg p-6">
-          {/* Content Display */}
-          {error && <p className="text-red-500">{error}</p>}
-          {showSummary ? (
-            loadingSummary ? (
+      <main className="flex-grow flex flex-col items-center mt-44 mb-32 px-4">
+        {error && <p className="text-red-500">{error}</p>}
+        
+        <div className="bg-white max-w-5xl w-full flex flex-col md:flex-row gap-6 rounded-2xl shadow-lg p-6">
+          {/* Summary Display */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">Summary</h3>
+            {loadingSummary ? (
               <p>Loading summary...</p>
             ) : (
-              <ReactMarkdown className="prose">{summary}</ReactMarkdown>
-            )
-          ) : loadingMindMap ? (
-            <p>Loading mind map...</p>
-          ) : (
-            <div className="mermaid">{mindMapData}</div>
-          )}
+              <ReactMarkdown className="prose text-black">{summary}</ReactMarkdown>
+            )}
+          </div>
+
+          {/* Mind Map Display */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">Mind Map</h3>
+            {loadingMindMap ? (
+              <p>Loading mind map...</p>
+            ) : (
+              <div className="mermaid">{mindMapData}</div>
+            )}
+          </div>
         </div>
 
         {/* Save as PDF or Image Button */}
@@ -146,7 +156,7 @@ const SummaryMindMapPage = () => {
           onClick={() => window.print()}
           className={`fixed bottom-20 left-1/2 transform -translate-x-1/2 ${blueBgStyle} text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue-700 transition duration-200 shadow-md`}
         >
-          {showSummary ? "Save as PDF" : "Save as Image"}
+          Save as PDF or Image
         </button>
       </main>
 
