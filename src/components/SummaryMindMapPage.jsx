@@ -22,7 +22,7 @@ const SummaryMindMapPage = () => {
     const fetchSummary = async () => {
       try {
         setLoadingSummary(true);
-        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcript language:\n"${transcription}"`;
+        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcript language and dont add a #Summary heading:\n"${transcription}"`;
 
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
