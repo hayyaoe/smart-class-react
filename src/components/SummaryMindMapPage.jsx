@@ -1,5 +1,5 @@
 // src/components/SummaryMindMapPage.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
@@ -13,26 +13,16 @@ const SummaryMindMapPage = () => {
   const [loadingSummary, setLoadingSummary] = useState(true);
   const [loadingMindMap, setLoadingMindMap] = useState(true);
   const [error, setError] = useState("");
+  const rendered = useRef(false); // Track if Mermaid has been rendered
 
-  // Styles for blue background color
+  const mindMapRef = useRef(null);
   const blueBgStyle = "bg-[#1152FD] text-white";
-
-  const mindMapReal = `mindmap
-  root(("Sedang berbicara di depan laptop"))
-    Tim
-      ("Ada banyak tim")
-      jumlah_tim(("Jumlah Tim: 2"))
-    Uji
-      Tes
-        Smart_Class(("Apakah bisa?"))
-        hasil_tes(("Hasil Tes: Belum diketahui"))
-  `;
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
         setLoadingSummary(true);
-        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcipt language and don't add a #Summary heading:\n"${transcription}"`;
+        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcript language:\n"${transcription}"`;
 
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -71,8 +61,6 @@ mindmap
       Another sub-topic detail
         Nested detail
 
-Each level should be indented with two spaces, and each node should be on a new line. Do not add any extra text or explanations. Just output the Mermaid.js code in the requested format.
-
 Text for mindmap: "${transcription}"`;
 
         const response = await axios.post(
@@ -104,11 +92,13 @@ Text for mindmap: "${transcription}"`;
   }, [transcription]);
 
   useEffect(() => {
-    if (mindMapData) {
-      mermaid.initialize({ startOnLoad: true });
-      mermaid.contentLoaded();
+    if (!loadingMindMap && mindMapData && !rendered.current) {
+      rendered.current = true; // Mark as rendered to prevent re-renders
+      mindMapRef.current.innerHTML = mindMapData;
+      mermaid.initialize({ startOnLoad: false });
+      mermaid.init(undefined, mindMapRef.current);
     }
-  }, [mindMapData]);
+  }, [loadingMindMap, mindMapData]);
 
   return (
     <div className="bg-gray-100 flex flex-col min-h-screen justify-between">
@@ -146,7 +136,7 @@ Text for mindmap: "${transcription}"`;
             {loadingMindMap ? (
               <p>Loading mind map...</p>
             ) : (
-              <div className="mermaid">{mindMapData}</div>
+              <div ref={mindMapRef} className="mermaid"></div>
             )}
           </div>
         </div>
