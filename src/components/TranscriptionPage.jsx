@@ -66,13 +66,13 @@ const TranscriptionPage = () => {
     <div className="bg-gray-100 flex flex-col min-h-screen justify-between">
       {/* Header */}
       <header className="text-white text-center">
-        <div className="bg-blue-600 pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
+        <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
           <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
         </div>
 
         {/* Title */}
         <div className="fixed top-24 left-1/2 transform -translate-x-1/2 w-80 z-50">
-          <div className="bg-white text-blue-600 font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
+          <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
             <h2 className="text-xl font-semibold">Voice Recording</h2>
           </div>
         </div>
@@ -91,7 +91,7 @@ const TranscriptionPage = () => {
         <button
           onClick={isRecording ? stopRecording : startRecording}
           className={`${
-            isRecording ? 'bg-red-500' : 'bg-blue-600'
+            isRecording ? 'bg-red-500' : 'bg-blue'
           } text-white text-lg font-semibold py-2 px-6 rounded-full hover:bg-opacity-90 transition duration-200 shadow-md mb-6`}
         >
           {isRecording ? 'Stop Recording' : 'Start Recording'}
@@ -103,7 +103,7 @@ const TranscriptionPage = () => {
             {[...Array(10)].map((_, i) => (
               <div
                 key={i}
-                className="wave-bar bg-blue-500"
+                className="wave-bar bg-blue"
                 style={{
                   width: '4px',
                   height: '40px',
@@ -131,19 +131,19 @@ const TranscriptionPage = () => {
 
       {/* Bottom Navigation Bar */}
       <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
-        <a href="/" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
         </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-book text-2xl"></i>
           <span className="text-xs font-medium">Notes</span>
         </a>
-        <a href="/transcription" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>
           <span className="text-xs font-medium">Record</span>
         </a>
-        <a href="/setting" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/setting" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-cog text-2xl"></i>
           <span className="text-xs font-medium">Settings</span>
         </a>
