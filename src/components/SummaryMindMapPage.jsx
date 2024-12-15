@@ -109,7 +109,7 @@ Text for mindmap: "${transcription}"`;
         </div>
 
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-80 z-50">
-          <div className="bg-white text-blue-600 font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
+          <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
             <h2 className="text-xl font-semibold">AI Summarizer & Mind Map</h2>
           </div>
         </div>
@@ -144,7 +144,7 @@ Text for mindmap: "${transcription}"`;
         {/* Save as PDF or Image Button */}
         <button
           onClick={() => window.print()}
-          className={`fixed bottom-20 left-1/2 transform -translate-x-1/2 ${blueBgStyle} text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue-700 transition duration-200 shadow-md`}
+          className={`fixed bottom-20 left-1/2 transform -translate-x-1/2 ${blueBgStyle} text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue transition duration-200 shadow-md`}
         >
           Save as PDF or Image
         </button>
@@ -152,19 +152,19 @@ Text for mindmap: "${transcription}"`;
 
       {/* Bottom Navigation Bar */}
       <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0 z-40">
-        <a href="/" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
         </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-book text-2xl"></i>
           <span className="text-xs font-medium">Notes</span>
         </a>
-        <a href="/transcription" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>
           <span className="text-xs font-medium">Record</span>
         </a>
-        <a href="/setting" className="flex flex-col items-center hover:text-blue-500 transition duration-200">
+        <a href="/setting" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-cog text-2xl"></i>
           <span className="text-xs font-medium">Settings</span>
         </a>

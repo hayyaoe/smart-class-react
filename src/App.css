@@ -1,3 +1,20 @@
 @import "tailwindcss/tailwind.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
+body{
+    font-family: "Montserrat", sans-serif;
+}
+
+.bg-1{
+    background: url("src/assets/Subscription-1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bg-blue{
+    background-color: #1152FD;
+}
+
+.text-blue{
+    color: #1152FD;
+}
