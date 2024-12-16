@@ -6,6 +6,7 @@ import TranscriptPage from "./components/TranscriptPage";
 import SummaryMindMapPage from "./components/SummaryMindMapPage";
 import HomePage from "./components/HomePage";
 import SettingsPage from "./components/SettingsPage";
+import QuizPage from "./components/QuizPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/transcript" element={<TranscriptPage />} />
         <Route path="/summary" element={<SummaryMindMapPage />} />
         <Route path="/setting" element={<SettingsPage />} />
+        <Route path="/quiz" element={<QuizPage />} />
       </Routes>
     </Router>
   );
