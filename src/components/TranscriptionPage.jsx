@@ -82,7 +82,7 @@ const TranscriptionPage = () => {
       <main className="flex-grow flex flex-col items-center justify-center mt-44 px-4">
         {/* Microphone Icon */}
         <div className="flex flex-col items-center mb-6">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-full p-6 shadow-md">
+          <div className="bg-blue text-white rounded-full p-6 shadow-md">
             <i className="fas fa-microphone text-4xl"></i>
           </div>
         </div>
