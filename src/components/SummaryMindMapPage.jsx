@@ -14,7 +14,7 @@ const SummaryMindMapPage = () => {
   const [loadingSummary, setLoadingSummary] = useState(true);
   const [loadingMindMap, setLoadingMindMap] = useState(true);
   const [error, setError] = useState("");
-  const rendered = useRef(false); // Track if Mermaid has been rendered
+  const rendered = useRef(false);
 
   const mindMapRef = useRef(null);
   const blueBgStyle = "bg-[#1152FD] text-white";
@@ -58,15 +58,15 @@ const SummaryMindMapPage = () => {
         setLoadingMindMap(true);
         const mindMapPrompt = `Please convert the following text into a Mermaid.js mindmap format. Follow this exact structure:
 
-mindmap
-  root: [Main Topic]
-    First sub-topic
-      Sub-topic detail
-    Second sub-topic
-      Another sub-topic detail
-        Nested detail
+        mindmap
+          root: [Main Topic]
+            First sub-topic
+              Sub-topic detail
+            Second sub-topic
+              Another sub-topic detail
+                Nested detail
 
-Text for mindmap: "${transcription}"`;
+        Text for mindmap: "${transcription}"`;
 
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -121,7 +121,7 @@ Text for mindmap: "${transcription}"`;
       </header>
 
       {/* Summary and Mind Map Section */}
-      <main className="flex-grow flex flex-col items-center mt-44 mb-32 px-4 md:px-20">
+      <main className="flex-grow flex flex-col items-center mt-44 mb-32 px-6 md:px-20">
         {error && <p className="text-red-500">{error}</p>}
         
         <div className="bg-white max-w-5xl md:max-w-full w-full flex flex-col md:flex-row gap-6 rounded-2xl shadow-lg p-6">
