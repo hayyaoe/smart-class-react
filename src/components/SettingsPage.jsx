@@ -1,18 +1,27 @@
 // src/components/SettingsPage.js
 import React from "react";
+import '../App.css'
 
 const SettingsPage = () => {
   return (
     <div className="bg-gray-100 flex flex-col min-h-screen">
       {/* Header */}
-      <header className="text-white text-center fixed top-0 left-0 w-full z-10 bg-blue pt-10 pb-8 shadow-md rounded-b-2xl">
-        <h1 className="text-3xl font-extrabold">smartclass</h1>
-        <p className="text-lg font-semibold">Settings</p>
+      <header className="text-white text-center">
+        <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
+          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+        </div>
+
+        {/* Title */}
+        <div className="fixed top-28 left-1/2 transform -translate-x-1/2 w-80 z-50">
+          <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
+            <h2 className="text-xl font-semibold"> Settings </h2>
+          </div>
+        </div>
       </header>
 
       {/* Settings Section */}
-      <main className="flex-grow flex flex-col items-center mt-28 p-6">
-        <div className="bg-white w-11/12 max-w-lg rounded-2xl shadow-md p-6 space-y-6">
+      <main className="flex-grow flex flex-col items-center mt-40 md:pb-20 py-8 px-4">
+        <div className="bg-white w-11/12 max-w-lg md:max-w-full rounded-2xl shadow-md p-6 space-y-6">
           {/* Profile Section */}
           <div>
             <h2 className="text-xl font-bold mb-4">Profile Settings</h2>
@@ -34,33 +43,26 @@ const SettingsPage = () => {
                 placeholder="Your email"
               />
             </div>
-          </div>
-
-          {/* Notification Preferences */}
-          <div>
-            <h2 className="text-xl font-bold mb-4">Notification Preferences</h2>
-            <div className="mb-3 flex items-center">
-              <input type="checkbox" id="email-notifications" className="h-5 w-5 text-blue border-gray-300 rounded focus:ring-blue-500" />
-              <label htmlFor="email-notifications" className="ml-2 text-sm text-gray-700">Email Notifications</label>
-            </div>
-            <div className="flex items-center">
-              <input type="checkbox" id="sms-notifications" className="h-5 w-5 text-blue border-gray-300 rounded focus:ring-blue-500" />
-              <label htmlFor="sms-notifications" className="ml-2 text-sm text-gray-700">SMS Notifications</label>
-            </div>
-          </div>
-
-          {/* Theme Selection */}
-          <div>
-            <h2 className="text-xl font-bold mb-4">Appearance</h2>
             <div className="mb-4">
-              <label htmlFor="theme" className="block text-sm font-medium text-gray-700">Select Theme</label>
-              <select
-                id="theme"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
+              <a className="text-blue" href="/"> Change Password </a>
+            </div>
+          </div>
+          <div className="bg-1 w-full md:w-4/12 h-full flex flex-row place-self-center justify-self-center px-5 py-6 rounded-2xl"> 
+            <div className="flex flex-col">
+              <div className = "flex flex-row justify-start items-center text-white text-xl font-medium">
+                <p className = "text-3xl font-bold"> Weekly </p>
+              </div>
+              <div className = "flex flex-row justify-start items-center text-white text-md font-medium">
+                <p> 15 prompts left </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-end justify-center ms-auto">
+              <div className = "flex flex-row justify-start items-center text-white text-xl font-medium tex">
+                <p className = "text-3xl font-bold"> 3 </p>
+              </div>
+              <div className = "flex flex-row justify-start items-center text-white text-md font-medium">
+                <p className="font-bold"> DAYS </p>
+              </div>
             </div>
           </div>
 

@@ -110,16 +110,16 @@ Text for mindmap: "${transcription}"`;
 
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-80 z-50">
           <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
-            <h2 className="text-xl font-semibold">AI Summarizer & Mind Map</h2>
+            <h2 className="text-xl font-semibold">Summarizer & Mind Map</h2>
           </div>
         </div>
       </header>
 
       {/* Summary and Mind Map Section */}
-      <main className="flex-grow flex flex-col items-center mt-44 mb-32 px-4">
+      <main className="flex-grow flex flex-col items-center mt-44 mb-32 px-4 md:px-20">
         {error && <p className="text-red-500">{error}</p>}
         
-        <div className="bg-white max-w-5xl w-full flex flex-col md:flex-row gap-6 rounded-2xl shadow-lg p-6">
+        <div className="bg-white max-w-5xl md:max-w-full w-full flex flex-col md:flex-row gap-6 rounded-2xl shadow-lg p-6">
           {/* Summary Display */}
           <div className="flex-1">
             <h3 className="text-2xl font-semibold mb-4">Summary</h3>

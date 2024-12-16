@@ -1,6 +1,5 @@
 // src/components/HomePage.js
 import React from "react";
-import Sub1 from "../assets/Subscription-1.png";
 import '../App.css';
 
 const HomePage = () => {
@@ -11,7 +10,7 @@ const HomePage = () => {
         <div className="bg-blue pt-16 pb-16 px-5 shadow-md rounded-b-[40px] fixed top-0 left-0 w-full z-10">
           <h1 className="text-4xl font-extrabold tracking-wide">Welcome to SmartClass</h1>
         </div>
-        <div className="fixed top-40 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-80 z-50">
+        <div className="fixed top-40 md:top-24 left-1/2 transform -translate-x-1/2 translate-y-1/2 md:translate-y-2/3 w-80 z-50">
           <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
             <h2 className="text-xl font-semibold">Home</h2>
           </div>
@@ -19,8 +18,8 @@ const HomePage = () => {
       </header>
 
       {/* Main Section */}
-      <main className="min-h-screen flex flex-col items-center justify-start pt-64 px-5">
-        <div className="bg-1 w-full h-full flex flex-row justify-start px-5 py-6"> 
+      <main className="min-h-screen flex flex-col items-center justify-start pt-64 md:pt-52 pb-0 md:pb-20 px-5 md:px-24">
+        <div className="bg-1 w-full md:w-4/12 h-full flex flex-row justify-start px-5 py-6 rounded-2xl"> 
           <div className="flex flex-col">
             <div className = "flex flex-row justify-start items-center text-white text-xl font-medium">
               <span className = "text-4xl font-bold pe-2"> 8 </span> Prompts
@@ -30,7 +29,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col items-end justify-center ms-auto">
-            <button className="bg-white text-blue rounded-2xl px-2 py-1 font-semibold"> Subscribe Now </button>
+            <button className="bg-white text-blue rounded-2xl px-2 py-1 font-semibold text-md"> Subscribe Now </button>
           </div>
         </div>
 
