@@ -1,6 +1,6 @@
 // src/components/SummaryMindMapPage.jsx
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import mermaid from "mermaid";
@@ -8,6 +8,7 @@ import mermaid from "mermaid";
 const SummaryMindMapPage = () => {
   const location = useLocation();
   const transcription = location.state?.transcription || "No transcription available";
+  const navigate = useNavigate();
   const [summary, setSummary] = useState("");
   const [mindMapData, setMindMapData] = useState("");
   const [loadingSummary, setLoadingSummary] = useState(true);
@@ -17,6 +18,10 @@ const SummaryMindMapPage = () => {
 
   const mindMapRef = useRef(null);
   const blueBgStyle = "bg-[#1152FD] text-white";
+
+  const handleGoToQuiz = () => {
+    navigate('/quiz');
+  };
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -142,12 +147,21 @@ Text for mindmap: "${transcription}"`;
         </div>
 
         {/* Save as PDF or Image Button */}
-        <button
-          onClick={() => window.print()}
-          className={`fixed bottom-20 left-1/2 transform -translate-x-1/2 ${blueBgStyle} text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue transition duration-200 shadow-md`}
-        >
-          Save as PDF or Image
-        </button>
+        <div className = "w-full flex flex-row fixed bottom-20 left-1/2 transform -translate-x-1/2 px-4 gap-1 md:gap-3 items-center justify-center">
+          <button
+            onClick={() => window.print()}
+            className={`bg-white text-blue text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue transition duration-200 shadow-md`}
+          >
+            Save as PDF
+          </button>
+          <button
+            onClick={handleGoToQuiz}
+            className={`bg-blue text-white text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue transition duration-200 shadow-md`}
+          >
+            Create Quiz
+          </button>
+        </div>
+        
       </main>
 
       {/* Bottom Navigation Bar */}
