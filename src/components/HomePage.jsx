@@ -1,8 +1,27 @@
 // src/components/HomePage.js
-import React from "react";
+import React, { useState } from "react";
 import '../App.css';
 
 const HomePage = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [isPaymentCheckout, setIsPaymentCheckout] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true); // Show modal when back is clicked
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
+  };
+
+  const openCheckout = () => {
+    setIsPaymentCheckout(true);
+  };
+
+  const closeCheckout = () => {
+    setIsPaymentCheckout(false);
+  };
+
   return (
     <div className="bg-gray-100 flex flex-col h-full justify-between">
       {/* Header */}
@@ -29,7 +48,11 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col items-end justify-center ms-auto">
-            <button className="bg-white text-blue rounded-2xl px-2 py-1 font-semibold text-md"> Subscribe Now </button>
+            <button 
+              className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-md"
+              onClick={openModal}
+            > Subscribe 
+            </button>
           </div>
         </div>
 
@@ -87,6 +110,113 @@ const HomePage = () => {
           <a className="w-full bg-blue text-white text-center py-4 font-bold text-md rounded-2xl px-auto" href="/transcription" > Summarize Now </a>
         </div>
       </main>
+
+            {/* Modal */}
+            {showModal && ( // Proper condition check for modal rendering
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-xl w-80 max-w-lg px-8 pt-3 pb-8">
+            {/* "X" Button to close the modal */}
+            <button
+              className="relative top-[-10px] left-[-20px] text-black hover:text-gray-900"
+              onClick={closeModal} // Close modal on click
+            >
+              <span className="text-4xl font-bold"> × </span>
+            </button>
+
+            {isPaymentCheckout ? (
+              // Payment Checkout View
+              <div className="payment-checkout">
+                <h2 className="text-xl font-bold text-blue text-center pb-4">Payment Checkout</h2>
+                <div className="flex justify-between items-center">
+                  <p>Standard</p>
+                  <p>Rp. 40.000</p>
+                </div>
+
+                <h3 className="font-semibold text-lg pt-4">Payment Method</h3>
+                <div className="payment-options space-y-3 mt-3">
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/BCA.png" alt="BCA" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">m-BCA</label>
+                    <input type="radio" name="payment" value="m-bca" />
+                  </div>
+
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/OVO.png" alt="OVO" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">OVO</label>
+                    <input type="radio" name="payment" value="ovo" />
+                  </div>
+
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/Gopay.png" alt="GoPay" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">GoPay</label>
+                    <input type="radio" name="payment" value="gopay" />
+                  </div>
+                </div>
+
+                <button
+                  className="bg-blue text-white font-bold w-full py-3 mt-6 rounded-lg"
+                  onClick={closeCheckout}
+                >
+                  Checkout
+                </button>
+              </div>
+            ) : (
+              // Subscription Options View
+              <>
+                <h2 className="text-xl font-bold text-blue text-center pb-4">Subscription</h2>
+
+                <div className="bg-1 flex flex-row justify-start items-center p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Daily</p>
+                    <p className="text-sm">3 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Weekly</p>
+                    <p className="text-sm">15 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-3 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Monthly</p>
+                    <p className="text-sm">50 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation Bar */}
       <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">

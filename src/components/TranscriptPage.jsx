@@ -34,7 +34,7 @@ const TranscriptPage = () => {
           <div className="overflow-y-auto h-full w-full">
             {/* Display transcription content */}
             {transcription.split('\n').map((line, index) => (
-              <p key={index} className="text-gray-700 text-justify mb-4">
+              <p key={index} className="text-gray-700 text-justify mb-4 font-medium text-lg">
                 {line}
               </p>
             ))}

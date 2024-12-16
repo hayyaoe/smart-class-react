@@ -8,6 +8,7 @@ const QuizPage = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isPaymentCheckout, setIsPaymentCheckout] = useState(false);
 
   const options = [
     { id: 'A', label: 'y = mx + c' },
@@ -20,12 +21,20 @@ const QuizPage = () => {
     navigate('/');
   };
 
-  const handleBackClick = () => {
+  const openModal = () => {
     setShowModal(true); // Show modal when back is clicked
   };
 
   const closeModal = () => {
-    setShowModal(false); // Close the modal
+    setShowModal(false);
+  };
+
+  const openCheckout = () => {
+    setIsPaymentCheckout(true);
+  };
+
+  const closeCheckout = () => {
+    setIsPaymentCheckout(false);
   };
 
 
@@ -74,7 +83,7 @@ const QuizPage = () => {
                 />
                 <span
                     className={`circle ${
-                    selected === option.id ? 'bg-white text-blue-500' : 'bg-blue-500 text-white'
+                    selected === option.id ? 'bg-white text-blue' : 'bg-blue text-white'
                     }`}
                 >
                     {option.id}
@@ -87,7 +96,7 @@ const QuizPage = () => {
         <div className = "w-full flex flex-row fixed bottom-20 left-1/2 transform -translate-x-1/2 px-4 gap-1 justify-center">
           <button
             className={`bg-white text-blue text-center text-lg font-semibold py-3 px-6 rounded-full mt-4 w-full max-w-xs hover:bg-blue transition duration-200 shadow-md`}
-            onClick={handleBackClick}
+            onClick={openModal}
           >
            Back
           </button>
@@ -101,53 +110,111 @@ const QuizPage = () => {
       </main>
 
       {/* Modal */}
-      {showModal && (
+      showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-xl w-80 max-w-lg p-8">
+          <div className="bg-white rounded-lg shadow-xl w-80 max-w-lg px-8 pt-3 pb-8">
             {/* "X" Button to close the modal */}
             <button
-                className="absolute top-[220px] left-12 text-black hover:text-gray-900"
-                onClick={closeModal} // This will trigger the modal close
+              className="relative top-[-10px] left-[-20px] text-black hover:text-gray-900"
+              onClick={closeModal}
             >
-                <span className="text-4xl font-bold"> × </span>
+              <span className="text-4xl font-bold"> × </span>
             </button>
-            <h2 className="text-xl font-bold text-blue text-center"> Subscription </h2>
-            <div className="bg-1 flex flex-row justify-start items-center p-5 rounded-2xl">
-                <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
-                    <p className = "text-2xl font-bold text-start"> Daily </p>
-                    <p className= "text-sm"> 3 prompts </p>
-                </div>
-                
-                <div className="flex flex-col items-end justify-center ms-auto">
-                    <button className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"> Subscribe </button>
-                </div>
-            </div>
 
-            <div className="bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
-                <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
-                    <p className = "text-2xl font-bold text-start"> Weekly </p>
-                    <p className= "text-sm"> 15 prompts </p>
+            {isPaymentCheckout ? (
+              // Payment Checkout View
+              <div className="payment-checkout">
+                <h2 className="text-xl font-bold text-blue text-center pb-4">Payment Checkout</h2>
+                <div className="flex justify-between items-center">
+                  <p>Standard</p>
+                  <p>Rp. 40.000</p>
                 </div>
-                
-                <div className="flex flex-col items-end justify-center ms-auto">
-                    <button className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"> Subscribe </button>
-                </div>
-            </div>
 
-            <div className="bg-3 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
-                <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
-                    <p className = "text-2xl font-bold text-start"> Monthly </p>
-                    <p className= "text-sm"> 50 prompts </p>
-                </div>
-                
-                <div className="flex flex-col items-end justify-center ms-auto">
-                    <button className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"> Subscribe </button>
-                </div>
-            </div>
+                <h3 className="font-semibold text-lg pt-4">Payment Method</h3>
+                <div className="payment-options space-y-3 mt-3">
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/BCA.png" alt="BCA" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">m-BCA</label>
+                    <input type="radio" name="payment" value="m-bca" />
+                  </div>
 
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/OVO.png" alt="OVO" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">OVO</label>
+                    <input type="radio" name="payment" value="ovo" />
+                  </div>
+
+                  <div className="flex items-center p-2 border rounded-lg">
+                    <img src="src/assets/Gopay.png" alt="GoPay" className="w-10 h-10 mr-2" />
+                    <label className="flex-1">GoPay</label>
+                    <input type="radio" name="payment" value="gopay" />
+                  </div>
+                </div>
+
+                <button
+                  className="bg-blue text-white font-bold w-full py-3 mt-6 rounded-lg"
+                  onClick={closeCheckout}
+                >
+                  Checkout
+                </button>
+              </div>
+            ) : (
+              // Subscription Options View
+              <>
+                <h2 className="text-xl font-bold text-blue text-center pb-4">Subscription</h2>
+
+                <div className="bg-1 flex flex-row justify-start items-center p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Daily</p>
+                    <p className="text-sm">3 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Weekly</p>
+                    <p className="text-sm">15 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-3 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
+                    <p className="text-2xl font-bold text-start">Monthly</p>
+                    <p className="text-sm">50 prompts</p>
+                  </div>
+
+                  <div className="flex flex-col items-end justify-center ms-auto">
+                    <button
+                      className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
+                      onClick={openCheckout} // Trigger payment view
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      )}
+      )
 
       {/* Bottom Navigation Bar */}
       <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
