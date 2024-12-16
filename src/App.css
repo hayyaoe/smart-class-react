@@ -10,6 +10,16 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
 }
+.bg-2{
+    background: url("src/assets/Subscription-2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.bg-3{
+    background: url("src/assets/Subscription-3.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 
 .bg-blue{
     background-color: #1152FD;
