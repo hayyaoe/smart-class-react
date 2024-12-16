@@ -25,26 +25,26 @@ const SummaryMindMapPage = () => {
 
   useEffect(() => {
     const fetchSummary = async () => {
+      if (!transcription) return;
+
+      setLoadingSummary(true);
+      setError(null);
+
       try {
-        setLoadingSummary(true);
-        const summaryPrompt = `Please provide a summary with introduction, learning concepts, and conclusion of the following text in Markdown format, also use the transcript language and dont add a #Summary heading:\n"${transcription}"`;
+        // Initialize the Generative AI client
+        const genAI = new GoogleGenerativeAI("AIzaSyC_Oa0pv6dRgsgPXG-I5BT4HD9DlxyIhiU");
 
-        const response = await axios.post(
-          "https://api.openai.com/v1/chat/completions",
-          {
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: summaryPrompt }],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-            },
-          }
-        );
+        // Get the generative model (choose based on your needs)
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Choose a suitable model
 
-        const summaryResult = response.data.choices?.[0]?.message?.content;
-        setSummary(summaryResult?.trim() || "No summary available");
+        // Define the prompt for summarization
+        const summaryPrompt = "Please provide a summary with introduction, learning concepts, and conclusion of the following text:\n${transcription}";
+
+        // Generate the summary
+        const response = await model.generateContent(summaryPrompt);
+
+        const summaryResult = response.response.text();
+        setSummary(summaryResult.trim() || "No summary available");
       } catch (error) {
         console.error("Error fetching summary:", error);
         setError("Failed to fetch the summary. Please try again.");
@@ -54,36 +54,29 @@ const SummaryMindMapPage = () => {
     };
 
     const fetchMindMap = async () => {
+      if (!transcription) return;
+
+      setLoadingMindMap(true);
+      setError(null);
+
       try {
-        setLoadingMindMap(true);
-        const mindMapPrompt = `Please convert the following text into a Mermaid.js mindmap format. Follow this exact structure:
+        // Initialize the Generative AI client
+        const genAI = new GoogleGenerativeAI("AIzaSyC_Oa0pv6dRgsgPXG-I5BT4HD9DlxyIhiU");
 
-        mindmap
-          root: [Main Topic]
-            First sub-topic
-              Sub-topic detail
-            Second sub-topic
-              Another sub-topic detail
-                Nested detail
+        // Get the generative model (choose based on your needs)
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Choose a suitable model
 
-        Text for mindmap: "${transcription}"`;
+        // Define the prompt for mind map generation
+        const mindMapPrompt = "Please convert the following text into a Mermaid.js mindmap format:\n\nText for mindmap: ${transcription}";
 
-        const response = await axios.post(
-          "https://api.openai.com/v1/chat/completions",
-          {
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: mindMapPrompt }],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-            },
-          }
+        // Generate the mind map
+        const response = await model.generateContent(mindMapPrompt);
+
+        const mindMapResult = response.response.text();
+        console.log(mindMapResult);
+        setMindMapData(
+          mindMapResult.text || "mindmap\nroot: No mind map data available",
         );
-
-        const mindMapResult = response.data.choices?.[0]?.message?.content;
-        setMindMapData(mindMapResult?.trim() || "mindmap\nroot: No mind map data available");
       } catch (error) {
         console.error("Error fetching mind map:", error);
         setError("Failed to fetch the mind map. Please try again.");

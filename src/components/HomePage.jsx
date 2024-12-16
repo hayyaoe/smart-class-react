@@ -5,6 +5,9 @@ import '../App.css';
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [isPaymentCheckout, setIsPaymentCheckout] = useState(false);
+  const [subPlan, setSubPlan] = useState(""); // State for subscription plan
+  const [subPrice, setSubPrice] = useState(""); // State for subscription price
+  const [subPrompt, setSubPrompt] = useState(0);
 
   const openModal = () => {
     setShowModal(true); // Show modal when back is clicked
@@ -14,8 +17,11 @@ const HomePage = () => {
     setShowModal(false); // Close the modal
   };
 
-  const openCheckout = () => {
+  const openCheckout = ({plan, price, prompts}) => {
     setIsPaymentCheckout(true);
+    setSubPlan(plan);   // Update state for subPlan
+    setSubPrice(price); // Update state for subPrice
+    setSubPrompt(prompts); // Update state for subPrompt
   };
 
   const closeCheckout = () => {
@@ -111,8 +117,8 @@ const HomePage = () => {
         </div>
       </main>
 
-            {/* Modal */}
-            {showModal && ( // Proper condition check for modal rendering
+      {/* Modal */}
+      {showModal && ( // Proper condition check for modal rendering
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl w-80 max-w-lg pt-3 pb-8">
             {/* "X" Button to close the modal */}
@@ -128,35 +134,38 @@ const HomePage = () => {
               <div className="payment-checkout">
                 <h2 className="text-xl font-bold text-blue text-center pb-4 px-8">Payment Checkout</h2>
                 <div className="w-full bg-blue text-white flex justify-between items-center">
-                  <p className="px-8 py-2">Standard</p>
-                  <p className="px-8 py-2">Rp. 40.000</p>
+                  <p className="px-8 py-2"> {subPlan} </p>
+                  <p className="px-8 py-2"> {subPrice} </p>
                 </div>
 
                 <h3 className="font-semibold text-lg pt-4 px-8">Payment Method</h3>
                 <div className="payment-options space-y-3 mt-3 px-8 ">
-                  <div className="flex items-center p-2 border rounded-lg">
+                  <label className="flex items-center p-2 border rounded-lg cursor-pointer" htmlFor="m-bca">
                     <img src="src/assets/BCA.png" alt="BCA" className="w-10 h-10 mr-2" />
-                    <label className="flex-1">m-BCA</label>
-                    <input type="radio" name="payment" value="m-bca" />
-                  </div>
+                    <span className="flex-1">m-BCA</span>
+                    <input type="radio" id="m-bca" name="payment" value="m-bca" className="ml-2" />
+                  </label>
 
-                  <div className="flex items-center p-2 border rounded-lg">
+                  <label className="flex items-center p-2 border rounded-lg cursor-pointer" htmlFor="ovo">
                     <img src="src/assets/OVO.png" alt="OVO" className="w-10 h-10 mr-2" />
-                    <label className="flex-1">OVO</label>
-                    <input type="radio" name="payment" value="ovo" />
-                  </div>
+                    <span className="flex-1">OVO</span>
+                    <input type="radio" id="ovo" name="payment" value="ovo" className="ml-2" />
+                  </label>
 
-                  <div className="flex items-center p-2 border rounded-lg">
+                  <label className="flex items-center p-2 border rounded-lg cursor-pointer" htmlFor="gopay">
                     <img src="src/assets/Gopay.png" alt="GoPay" className="w-10 h-10 mr-2" />
-                    <label className="flex-1">GoPay</label>
-                    <input type="radio" name="payment" value="gopay" />
-                  </div>
+                    <span className="flex-1">GoPay</span>
+                    <input type="radio" id="gopay" name="payment" value="gopay" className="ml-2" />
+                  </label>
                 </div>
 
                 <div className="px-8">
                   <button
                     className="w-full bg-blue text-white font-bold py-3 mt-6 rounded-lg"
-                    onClick={closeCheckout && closeModal}
+                    onClick={() => {
+                      closeCheckout();
+                      closeModal();
+                    }}
                   >
                     Checkout
                   </button>
@@ -167,53 +176,55 @@ const HomePage = () => {
               <>
                 <h2 className="text-xl font-bold text-blue text-center pb-4 px-8">Subscription</h2>
                 <div className="px-6">
-                  <div className="bg-1 flex flex-row justify-start items-center p-5 rounded-2xl">
+                  <button className="w-full bg-1 flex flex-row justify-start items-center p-5 rounded-2xl"
+                  onClick={() => openCheckout({plan: 'Daily', price: 'Rp 5.000', prompts: 2})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Daily</p>
-                      <p className="text-sm">3 prompts</p>
+                      <p className="text-sm">2 prompts/day</p>
                     </div>
 
                     <div className="flex flex-col items-end justify-center ms-auto">
                       <button
                         className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
-                        onClick={openCheckout} // Trigger payment view
                       >
-                        Subscribe
+                        Rp 5.000
                       </button>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <button className="w-full bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl"
+                  onClick={() => openCheckout({plan: 'Weekly', price: 'Rp 19.900', prompts: 15})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Weekly</p>
-                      <p className="text-sm">15 prompts</p>
+                      <p className="text-sm">15 prompts/week</p>
                     </div>
 
                     <div className="flex flex-col items-end justify-center ms-auto">
                       <button
                         className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
-                        onClick={openCheckout} // Trigger payment view
+                         // Trigger payment view
                       >
-                        Subscribe
+                        Rp 19.900
                       </button>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-3 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl">
+                  <button className="bg-3 w-full flex flex-row justify-start items-center mt-2 p-5 rounded-2xl"
+                    onClick={() => openCheckout({plan: 'Monthly', price: 'Rp 49.900', prompts: 100})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Monthly</p>
-                      <p className="text-sm">50 prompts</p>
+                      <p className="text-sm">Unlimited</p>
                     </div>
 
                     <div className="flex flex-col items-end justify-center ms-auto">
                       <button
                         className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-sm"
-                        onClick={openCheckout} // Trigger payment view
+                         // Trigger payment view
                       >
-                        Subscribe
+                        Rp 49.900
                       </button>
                     </div>
-                  </div>
+                  </button>
                 </div>
               </>
             )}
