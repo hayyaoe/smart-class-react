@@ -51,14 +51,10 @@ const TranscriptPage = () => {
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0 z-40">
+      <nav className="bg-white text-blue shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0 z-40">
         <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
-        </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
-          <i className="fas fa-book text-2xl"></i>
-          <span className="text-xs font-medium">Notes</span>
         </a>
         <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>

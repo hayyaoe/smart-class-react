@@ -71,3 +71,19 @@ body{
     transition: background-color 0.3s ease;
   }
   
+  @keyframes wave {
+    0%, 100% {
+      height: 20px;
+    }
+    50% {
+      height: 50px;
+    }
+  }
+  
+  .wave-bar {
+    background-color: #3b82f6; /* Blue */
+    width: 4px;
+    margin: 0 2px;
+    animation: wave 1s ease-in-out infinite;
+  }
+  

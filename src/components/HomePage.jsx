@@ -4,7 +4,6 @@ import '../App.css';
 import { UserContext } from "../contexts/UserContext";
 
 const HomePage = () => {
-  
   const { user, setUser } = useContext(UserContext); // Ensure `setUser` is provided by the context
   const [localUser, setLocalUser] = useState({ username: user.username || "", email: user.email || "" });
 
@@ -81,7 +80,7 @@ const HomePage = () => {
               <span className = "text-4xl font-bold pe-2"> {user.prompts} </span> Prompts
             </div>
             <div className = "flex flex-row justify-start items-center text-white text-md font-medium">
-              <p> left to use today. </p>
+              <p> left to use. </p>
             </div>
           </div>
           <div className="flex flex-col items-end justify-center ms-auto">
@@ -313,14 +312,10 @@ const HomePage = () => {
       )}
 
       {/* Bottom Navigation Bar */}
-      <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
+      <nav className="bg-white text-blue shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
         <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
-        </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
-          <i className="fas fa-book text-2xl"></i>
-          <span className="text-xs font-medium">Notes</span>
         </a>
         <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>

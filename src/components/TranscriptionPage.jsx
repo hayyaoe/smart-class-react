@@ -1,12 +1,14 @@
 // src/components/TranscriptionPage.jsx
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../App.css';
 import axios from 'axios';
 
 const TranscriptionPage = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState('');
   const [audioUrl, setAudioUrl] = useState(null);
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const navigate = useNavigate();
@@ -50,15 +52,19 @@ const TranscriptionPage = () => {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'audio.webm');
 
+    setIsTranscribing(true);
+
     try {
       const response = await axios.post('/transcribe', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
+      setIsTranscribing(false)
       navigate('/transcript', { state: { transcription: response.data.transcription } });
     } catch (error) {
       console.error('Transcription error:', error);
       setError('Failed to transcribe audio. Please try again.');
+      setIsTranscribing(false)
     }
   };
 
@@ -80,64 +86,65 @@ const TranscriptionPage = () => {
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center mt-44 px-4">
-        {/* Microphone Icon */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="bg-blue text-white rounded-full p-6 shadow-md">
-            <i className="fas fa-microphone text-4xl"></i>
-          </div>
-        </div>
+        {!isTranscribing ? (
+          <>
+            {/* Microphone Icon */}
+            <div className="flex flex-col items-center mb-6">
+              <div className="bg-blue text-white rounded-full p-6 shadow-md">
+                <i className="fas fa-microphone text-4xl"></i>
+              </div>
+            </div>
 
-        {/* Start/Stop Recording Button */}
-        <button
-          onClick={isRecording ? stopRecording : startRecording}
-          className={`${
-            isRecording ? 'bg-red-500' : 'bg-blue'
-          } text-white text-lg font-semibold py-2 px-6 rounded-full hover:bg-opacity-90 transition duration-200 shadow-md mb-6`}
-        >
-          {isRecording ? 'Stop Recording' : 'Start Recording'}
-        </button>
+            {/* Start/Stop Recording Button */}
+            <button
+              onClick={isRecording ? stopRecording : startRecording}
+              className={`${
+                isRecording ? 'bg-red-500' : 'bg-blue'
+              } text-white text-lg font-semibold py-2 px-6 rounded-full hover:bg-opacity-90 transition duration-200 shadow-md mb-6`}
+            >
+              {isRecording ? 'Stop Recording' : 'Start Recording'}
+            </button>
 
-        {/* Sound Wave Simulation */}
-        {isRecording && (
-          <div className="wave-container flex justify-center items-center mb-8">
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                className="wave-bar bg-blue"
-                style={{
-                  width: '4px',
-                  height: '40px',
-                  margin: '0 2px',
-                  animation: `wave 1s ease-in-out infinite`,
-                  animationDelay: `${i * 0.1}s`,
-                }}
-              ></div>
-            ))}
+            {/* Sound Wave Simulation */}
+            {isRecording && (
+              <div className="wave-container flex justify-center items-center mb-8">
+                {[...Array(10)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="wave-bar"
+                    style={{
+                      animationDelay: `${i * 0.1}s`,
+                    }}
+                  ></div>
+                ))}
+              </div>
+            )}
+
+            {/* Audio Playback */}
+            {audioUrl && (
+              <div className="w-full mt-4">
+                <audio controls className="w-full">
+                  <source src={audioUrl} type="audio/webm" />
+                </audio>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && <p className="text-red-500 mt-4">{error}</p>}
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center mt-8">
+            <div className="w-16 h-16 border-4 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-blue mt-4">Transcribing...</p>
           </div>
         )}
-
-        {/* Audio Playback */}
-        {audioUrl && (
-          <div className="w-full mt-4">
-            <audio controls className="w-full">
-              <source src={audioUrl} type="audio/webm" />
-            </audio>
-          </div>
-        )}
-
-        {/* Error Message */}
-        {error && <p className="text-red-500 mt-4">{error}</p>}
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
+      <nav className="bg-white text-blue shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
         <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
-        </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
-          <i className="fas fa-book text-2xl"></i>
-          <span className="text-xs font-medium">Notes</span>
         </a>
         <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>
