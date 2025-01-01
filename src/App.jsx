@@ -9,21 +9,24 @@ import SettingsPage from "./components/SettingsPage";
 import QuizPage from "./components/QuizPage";
 import QuizResult from "./components/QuizResult";
 import ReviewQuizPage from "./components/ReviewQuizPage";
+import { UserProvider } from "./contexts/UserContext";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/transcription" element={<TranscriptionPage />} />
-        <Route path="/transcript" element={<TranscriptPage />} />
-        <Route path="/summary" element={<SummaryMindMapPage />} />
-        <Route path="/setting" element={<SettingsPage />} />
-        <Route path="/quiz" element={<QuizPage />} />
-        <Route path="/result" element={<QuizResult />} />
-        <Route path="/review" element={<ReviewQuizPage />} />
-      </Routes>
-    </Router>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/transcription" element={<TranscriptionPage />} />
+          <Route path="/transcript" element={<TranscriptPage />} />
+          <Route path="/summary" element={<SummaryMindMapPage />} />
+          <Route path="/setting" element={<SettingsPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/result" element={<QuizResult />} />
+          <Route path="/review" element={<ReviewQuizPage />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 };
 

@@ -1,31 +1,52 @@
 // src/components/HomePage.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import '../App.css';
+import { UserContext } from "../contexts/UserContext";
 
 const HomePage = () => {
+  const { user, setUser } = useContext(UserContext); // Ensure `setUser` is provided by the context
+  const [localUser, setLocalUser] = useState({ username: user.username || "", email: user.email || "" });
+
   const [showModal, setShowModal] = useState(false);
   const [isPaymentCheckout, setIsPaymentCheckout] = useState(false);
-  const [subPlan, setSubPlan] = useState(""); // State for subscription plan
-  const [subPrice, setSubPrice] = useState(""); // State for subscription price
+  const [isUserDetailsForm, setIsUserDetailsForm] = useState(false);
+  const [subPlan, setSubPlan] = useState("");
+  const [subPrice, setSubPrice] = useState("");
+  const [subTime, setSubTime] = useState(0);
   const [subPrompt, setSubPrompt] = useState(0);
 
   const openModal = () => {
-    setShowModal(true); // Show modal when back is clicked
+    setShowModal(true);
   };
 
   const closeModal = () => {
-    setShowModal(false); // Close the modal
+    setShowModal(false);
   };
 
-  const openCheckout = ({plan, price, prompts}) => {
+  const openCheckout = ({plan, price, prompts, time}) => {
     setIsPaymentCheckout(true);
-    setSubPlan(plan);   // Update state for subPlan
-    setSubPrice(price); // Update state for subPrice
-    setSubPrompt(prompts); // Update state for subPrompt
+    setSubPlan(plan);
+    setSubPrice(price);
+    setSubPrompt(prompts);
+    setSubTime(time)
   };
 
   const closeCheckout = () => {
     setIsPaymentCheckout(false);
+  };
+
+  const openUserDetailForm = () => {
+    setIsUserDetailsForm(true);
+  }
+
+  const closeUserDetailForm = () => {
+    setIsUserDetailsForm(false);
+  }
+
+  const handleUserDetailsSubmit = () => {
+    // Update the user in the context if required
+    setUser({ ...user, ...localUser, subscriptionType: subPlan, prompts: subPrompt, time: subTime }); // Assuming `setUser` updates the context globally
+    setShowModal(false); // Close the modal
   };
 
   return (
@@ -44,26 +65,35 @@ const HomePage = () => {
 
       {/* Main Section */}
       <main className="min-h-screen flex flex-col items-center justify-start pt-64 md:pt-52 pb-0 md:pb-20 px-5 md:px-24">
-        <div className="bg-1 w-full md:w-4/12 h-full flex flex-row justify-start px-5 py-6 rounded-2xl"> 
+        <div className={`${
+              user.subscriptionType === "Free" || user.subscriptionType === "Daily"
+              ? "bg-1"
+              : user.subscriptionType === "Weekly"
+              ? "bg-2"
+              : user.subscriptionType === "Monthly"
+              ? "bg-3"
+              : ""
+          } w-full md:w-5/12 h-full flex flex-row justify-start px-5 py-6 rounded-2xl`}
+        > 
           <div className="flex flex-col">
             <div className = "flex flex-row justify-start items-center text-white text-xl font-medium">
-              <span className = "text-4xl font-bold pe-2"> 8 </span> Prompts
+              <span className = "text-4xl font-bold pe-2"> {user.prompts} </span> Prompts
             </div>
             <div className = "flex flex-row justify-start items-center text-white text-md font-medium">
-              <p> left to use today. </p>
+              <p> left to use. </p>
             </div>
           </div>
           <div className="flex flex-col items-end justify-center ms-auto">
-            <button 
-              className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-md"
-              onClick={openModal}
-            > Subscribe 
-            </button>
+              <button 
+                className="bg-white text-blue rounded-2xl px-3 py-1 font-semibold text-md"
+                onClick={openModal}
+              > Subscribe 
+              </button>
           </div>
         </div>
 
         {/* Features Section */}
-        <section className="mt-6 w-full max-w-5xl text-center">
+        <section className="mt-6 w-full text-center">
           <h2 className="text-2xl font-bold mb-6">Features</h2>
           <div className="grid grid-cols-2 gap-3">
             <div className="w-full flex flex-row bg-white px-5 py-5 rounded-3xl shadow-2xl hover:shadow-lg transition-shadow duration-200">
@@ -118,13 +148,14 @@ const HomePage = () => {
       </main>
 
       {/* Modal */}
-      {showModal && ( // Proper condition check for modal rendering
+
+      {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl w-80 max-w-lg pt-3 pb-8">
             {/* "X" Button to close the modal */}
             <button
               className="relative top-[-4px] left-[20px] text-black hover:text-gray-900"
-              onClick={closeModal} // Close modal on click
+              onClick={closeModal}
             >
               <span className="text-4xl font-bold"> × </span>
             </button>
@@ -134,12 +165,12 @@ const HomePage = () => {
               <div className="payment-checkout">
                 <h2 className="text-xl font-bold text-blue text-center pb-4 px-8">Payment Checkout</h2>
                 <div className="w-full bg-blue text-white flex justify-between items-center">
-                  <p className="px-8 py-2"> {subPlan} </p>
-                  <p className="px-8 py-2"> {subPrice} </p>
+                  <p className="px-8 py-2">{subPlan}</p>
+                  <p className="px-8 py-2">{subPrice}</p>
                 </div>
 
                 <h3 className="font-semibold text-lg pt-4 px-8">Payment Method</h3>
-                <div className="payment-options space-y-3 mt-3 px-8 ">
+                <div className="payment-options space-y-3 mt-3 px-8">
                   <label className="flex items-center p-2 border rounded-lg cursor-pointer" htmlFor="m-bca">
                     <img src="src/assets/BCA.png" alt="BCA" className="w-10 h-10 mr-2" />
                     <span className="flex-1">m-BCA</span>
@@ -163,13 +194,61 @@ const HomePage = () => {
                   <button
                     className="w-full bg-blue text-white font-bold py-3 mt-6 rounded-lg"
                     onClick={() => {
-                      closeCheckout();
-                      closeModal();
+                      closeCheckout()
+                      openUserDetailForm()
                     }}
                   >
                     Checkout
                   </button>
                 </div>
+              </div>
+            ) : isUserDetailsForm ? (
+              // User Details Form View
+              <div className="user-details-form px-8">
+                <h2 className="text-xl font-bold text-blue text-center pb-4">
+                  Enter Your Details
+                </h2>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleUserDetailsSubmit();
+                  }}
+                >
+                  <div className="mb-4">
+                    <label htmlFor="username" className="block text-gray-700 font-semibold mb-2">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      id="username"
+                      className="w-full px-4 py-2 border rounded-lg"
+                      placeholder="Enter your username"
+                      required
+                      value={localUser.username}
+                      onChange={(e) => setLocalUser({ ...localUser, username: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="w-full px-4 py-2 border rounded-lg"
+                      placeholder="Enter your email"
+                      required
+                      value={localUser.email}
+                      onChange={(e) => setLocalUser({ ...localUser, email: e.target.value })}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue text-white font-bold py-3 mt-6 rounded-lg"
+                  >
+                    Submit
+                  </button>
+                </form>
               </div>
             ) : (
               // Subscription Options View
@@ -177,7 +256,7 @@ const HomePage = () => {
                 <h2 className="text-xl font-bold text-blue text-center pb-4 px-8">Subscription</h2>
                 <div className="px-6">
                   <button className="w-full bg-1 flex flex-row justify-start items-center p-5 rounded-2xl"
-                  onClick={() => openCheckout({plan: 'Daily', price: 'Rp 5.000', prompts: 2})}>
+                  onClick={() => openCheckout({plan: 'Daily', price: 'Rp 5.000', prompts: 2, time: 1})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Daily</p>
                       <p className="text-sm">2 prompts/day</p>
@@ -193,7 +272,7 @@ const HomePage = () => {
                   </button>
 
                   <button className="w-full bg-2 flex flex-row justify-start items-center mt-2 p-5 rounded-2xl"
-                  onClick={() => openCheckout({plan: 'Weekly', price: 'Rp 19.900', prompts: 15})}>
+                  onClick={() => openCheckout({plan: 'Weekly', price: 'Rp 19.900', prompts: 15, time: 7})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Weekly</p>
                       <p className="text-sm">15 prompts/week</p>
@@ -210,7 +289,7 @@ const HomePage = () => {
                   </button>
 
                   <button className="bg-3 w-full flex flex-row justify-start items-center mt-2 p-5 rounded-2xl"
-                    onClick={() => openCheckout({plan: 'Monthly', price: 'Rp 49.900', prompts: 100})}>
+                    onClick={() => openCheckout({plan: 'Monthly', price: 'Rp 49.900', prompts: 100, time: 30})}>
                     <div className="flex flex-col justify-start items-start text-white text-xl font-medium">
                       <p className="text-2xl font-bold text-start">Monthly</p>
                       <p className="text-sm">Unlimited</p>
@@ -233,14 +312,10 @@ const HomePage = () => {
       )}
 
       {/* Bottom Navigation Bar */}
-      <nav className="bg-white text-gray-600 shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
+      <nav className="bg-white text-blue shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
         <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-home text-2xl"></i>
           <span className="text-xs font-medium">Home</span>
-        </a>
-        <a href="/transcript" className="flex flex-col items-center hover:text-blue transition duration-200">
-          <i className="fas fa-book text-2xl"></i>
-          <span className="text-xs font-medium">Notes</span>
         </a>
         <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
           <i className="fas fa-microphone-alt text-2xl"></i>

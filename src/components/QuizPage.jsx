@@ -127,9 +127,18 @@ const QuizPage = () => {
 
   return (
     <div className="bg-gray-100 flex flex-col min-h-screen">
-      <header className="text-white text-center bg-blue-600 py-8 shadow-md">
-        <h1 className="text-4xl font-extrabold">SmartClass</h1>
-        <h2 className="text-lg mt-2">Quiz</h2>
+      {/* Title */}
+      <header className="text-white text-center">
+        <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
+          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+        </div>
+
+        {/* Title */}
+        <div className="fixed top-28 left-1/2 transform -translate-x-1/2 w-80 z-50">
+          <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
+            <h2 className="text-xl font-semibold"> Quiz </h2>
+          </div>
+        </div>
       </header>
 
       <main className="flex-grow flex flex-col items-center mt-12 px-6">
@@ -199,6 +208,21 @@ const QuizPage = () => {
           </div>
         </div>
       )}
+      {/* Bottom Navigation Bar */}
+      <nav className="bg-white text-blue shadow-t-lg py-3 flex justify-around items-center fixed bottom-0 inset-x-0">
+        <a href="/" className="flex flex-col items-center hover:text-blue transition duration-200">
+          <i className="fas fa-home text-2xl"></i>
+          <span className="text-xs font-medium">Home</span>
+        </a>
+        <a href="/transcription" className="flex flex-col items-center hover:text-blue transition duration-200">
+          <i className="fas fa-microphone-alt text-2xl"></i>
+          <span className="text-xs font-medium">Record</span>
+        </a>
+        <a href="/setting" className="flex flex-col items-center hover:text-blue transition duration-200">
+          <i className="fas fa-cog text-2xl"></i>
+          <span className="text-xs font-medium">Settings</span>
+        </a>
+      </nav>
     </div>
   );
 };
