@@ -30,7 +30,7 @@ const TranscriptPage = () => {
       {/* Transcript Section */}
       <main className="flex-grow flex px-6 mt-40 mb-32 justify-center items-start">
         {/* Transcript Box */}
-        <div className="max-w-md px-3 py-6 flex flex-col items-center w-full">
+        <div className="px-3 md:px-8 py-6 flex flex-col items-center w-full">
           <div className="overflow-y-auto h-full w-full">
             {/* Display transcription content */}
             {transcription.split('\n').map((line, index) => (
