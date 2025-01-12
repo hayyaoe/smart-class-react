@@ -16,7 +16,7 @@ const TranscriptPage = () => {
       {/* Header */}
       <header className="text-white text-center">
         <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
-          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide">StudyBuddy</h1>
         </div>
 
         {/* Transcript Label */}

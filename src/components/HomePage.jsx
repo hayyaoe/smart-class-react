@@ -54,7 +54,7 @@ const HomePage = () => {
       {/* Header */}
       <header className="text-white text-center">
         <div className="bg-blue pt-16 pb-16 px-5 shadow-md rounded-b-[40px] fixed top-0 left-0 w-full z-10">
-          <h1 className="text-4xl font-extrabold tracking-wide">Welcome to SmartClass</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide">Welcome to StudyBuddy</h1>
         </div>
         <div className="fixed top-40 md:top-24 left-1/2 transform -translate-x-1/2 translate-y-1/2 md:translate-y-2/3 w-80 z-50">
           <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">
