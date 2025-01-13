@@ -90,7 +90,7 @@ const SummaryMindMapPage = () => {
 
       try {
         const genAI = new GoogleGenerativeAI(
-          "YOUR GEMINI API KEY HERE",
+          "API KEY HERE",
         );
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -115,7 +115,7 @@ const SummaryMindMapPage = () => {
 
       try {
         const genAI = new GoogleGenerativeAI(
-          "YOUR GEMINI API KEY HERE",
+          "API KEY HERE",
         );
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -171,7 +171,7 @@ const SummaryMindMapPage = () => {
         <div
           className={`${blueBgStyle} pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10`}
         >
-          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide">StudyBuddy</h1>
         </div>
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-80 z-50">
           <div className="bg-white text-blue font-semibold text-lg px-6 py-3 rounded-full shadow-lg w-full">

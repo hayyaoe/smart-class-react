@@ -79,7 +79,7 @@ const QuizPage = () => {
 
     try {
       const genAI = new GoogleGenerativeAI(
-        "YOUR GEMINI API KEY HERE", // Replace with a secure config
+        "API KEY HERE", // Replace with a secure config
       );
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -130,7 +130,7 @@ const QuizPage = () => {
       {/* Title */}
       <header className="text-white text-center">
         <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
-          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide">StudyBuddy</h1>
         </div>
 
         {/* Title */}
@@ -141,7 +141,7 @@ const QuizPage = () => {
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center mt-12 px-6">
+      <main className="flex-grow flex flex-col items-center mt-44 px-6">
         {isLoading ? (
           <p className="text-blue-500">Loading quiz...</p>
         ) : error ? (

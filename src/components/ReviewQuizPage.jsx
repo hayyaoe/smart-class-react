@@ -27,7 +27,7 @@ const ReviewQuizPage = () => {
     <div className="bg-gray-100 flex flex-col min-h-screen">
       <header className="text-white text-center">
         <div className="bg-blue pt-12 pb-12 shadow-md rounded-b-3xl fixed top-0 left-0 w-full z-10">
-          <h1 className="text-4xl font-extrabold tracking-wide">smartclass</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide">StudyBuddy</h1>
         </div>
 
         {/* Title */}
@@ -38,7 +38,7 @@ const ReviewQuizPage = () => {
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center mt-12 px-6">
+      <main className="flex-grow flex flex-col items-center mt-44 px-6">
         <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
           <h3 className="text-xl font-bold mb-4">
             Question {currentQuestion + 1}/{questions.length}
